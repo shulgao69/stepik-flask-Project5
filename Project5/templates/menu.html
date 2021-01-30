@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block container %}
+
+  <main class="container mt-3">
+
+    <section>
+      <h3 class="my-4">{{ category.title }}</h3>
+      <div class="row row-flex mt-4">
+        {% if meals|length==0 %}
+        <h4 class="h5 card-title ml-3">Мы готовим вам еще что-то</h4>
+        {% else %}
+      {% for meal in meals %}
+        <div class="col-12 col-md-4">
+          <div class="card mb-3">
+            <img src="/static/pictures/{{ meal.picture }}" width="300" height="200" class="card-img-top" alt="">
+            <div class="card-body">
+              <h4 class="h5 card-title">{{ meal.title }}</h4>
+              <h4 class="h5 card-title"> {{ meal.price }}</h4>
+              <p class="card-text">{{ meal.description }} </p>
+              <a href="/addtocart/{{ meal.id }}/" class="btn btn-danger">
+                <div class="to-bottom">
+                В корзину
+              </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </section>
+
+</main>
+
+{% endblock %}

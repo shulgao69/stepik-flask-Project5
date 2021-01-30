@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+  <main class="container">
+  {% if not session.get("is_auth") %}
+        <div class="alert alert-warning text-center mt-5 px-5" role="alert"> <a href="/login/">войдите</a> или <a href="/register/">зарегистрируйтесь</a></div>
+      {% else %}
+    <section class="row">
+    <a class="col-12 col-lg-8" href="/change-password/">Смена пароля</a>
+      <div class="col-12 col-lg-8">
+
+        <h1 class="h3 my-5">Личный кабинет. Заказы</h1>
+
+    {% for order in orders %}
+
+ <div class="card">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                  <span class="col-4 h5 font-weight-bold">{{ order.date }}</span>
+                  <span class="col-5 h5">Сумма заказа {{ order.summa }} руб.</span>
+                    <span class="col-3 h5">{{ order.status }}</span>
+              </div>
+            </li>
+            <div class="card-body">
+              <div class="row">
+                  <p class="col-4 text-muted"> блюдо </p>
+                  <p class="col-2 text-muted"> кол-во </p>
+                  <p class="col-3 text-muted"> цена </p>
+                  <p class="col-3 text-muted"> сумма </p>
+                  {% for or in order.list_meal %}
+                    <p class="col-4 text-muted">{{ or[0] }} </p>
+                    <p class="col-2 text-muted"> {{ or[1] }} </p>
+                    <p class="col-3 text-muted"> {{ or[2] }} </p>
+                    <p class="col-3 text-muted"> {{ or[2]*or[1] }} </p>
+                  {% endfor %}
+              </div>
+            </div>
+          </ul>
+        </div>
+{% endfor %}
+
+      </div>
+    </section>
+</main>
+{% endif %}
+{% endblock %}

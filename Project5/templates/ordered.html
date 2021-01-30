@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block container %}
+
+  <main class="container">
+    <div class="row">
+      <div class="col-8 col-lg-4 offset-2 offset-lg-4">
+        <div class="text-center pt-5 mt-5">
+          {% include 'emodzired.html' ignore missing %}
+            <h1 class="h3 mb-3 ">Заявка отправлена</h1>
+            <p class="mb-4">Скоро мы вам перезвоним</p>
+            <p class="mt-4 mb-3">Войдите в&nbsp;личный кабинет, чтобы отслеживать статус заказа</p>
+            <a href="/account/" class="btn btn-primary btn-lg mt-3">Войти</a>
+          </div>
+      </div>
+    </div>
+</main>
+{% endblock %}

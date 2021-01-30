@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+  <main class="container">
+    <h1 class="h3 my-4">Корзина</h1>
+    {% if del_meal %}
+    <div class="alert alert-warning" role="alert">Блюдо удалено из корзины</div>
+    {% endif %}
+    {% if not session.get("is_auth") %}
+    <div class="alert alert-warning" role="alert">Чтобы сделать заказ – <a href="/login/">войдите</a> или <a href="/register/">зарегистрируйтесь</a></div>
+    {% endif %}
+    <div class="row mt-5">
+
+        <div class="col-4">
+          <form action="/cart/" method="POST" class="form-signin pt-5">
+          {{ form.csrf_token }}
+          <h4 class="">Ваши данные</h4>
+             {% if err %}
+              <div class="alert alert-warning" role="alert">{{ err }}</div>
+            {% endif %}
+          <div class=" md-4 order-md-1">
+            <div class="mt-3 mb-3">
+              {{ form.name_user.label }}
+              {{ form.name_user(class="font-weight-bold form-control") }}
+            </div>
+          </div>
+          <div class="md-4 order-md-1">
+            <div class="mt-3 mb-3">
+              {{ form.address_user.label }}
+              {{ form.address_user(class="font-weight-bold form-control") }}
+            </div>
+          </div>
+          <div class="md-4 form-label-group">
+              {{ form.email_user.label }}
+              {{ form.email_user(class="font-weight-bold form-control") }}
+
+          </div>
+          <div class="md-4 order-md-1">
+            <div class="mt-3 mb-3">
+              {{ form.phone_user.label }}
+              {{ form.phone_user(class="font-weight-bold form-control") }}
+            </div>
+            <input type="hidden" value = "{{ sum }}" name="order_summ">
+            <input type="hidden" value="[1,3,4]" name="order_cart">
+
+          {% if session["is_auth"] and session["sum"] != 0 %}
+            <button type="submit" class=" mt-3 mb-5 btn btn-danger">Оформить заказ</button>
+          {% endif %}
+          </form>
+        </div>
+    </div>
+      <div class="col-1"></div>
+      <div class="col-7">
+        {% if i == 0 %}
+        <h4 class="mb-3 col-7 mb-5">Вы еще ничего не заказали</h4>
+        {% elif (i == 1 or i % 10 == 1) and i != 11 %}
+        <h4 class="mb-3 col-7 mb-5">{{ i }} блюдо в корзине</h4>
+        {% elif (2 <= i <=4 or i % 10 == 2 or i % 10 == 3 or i % 10 == 4) and i not in range(12, 15) %}
+        <h4 class="mb-3 col-7 mb-5">{{ i }} блюда в корзине</h4>
+         {% else %}
+        <h4 class="mb-3 col-7 mb-5">{{ i }} блюд в корзине</h4>
+        {% endif %}
+
+        <table class="table">
+          <tbody>
+          <tr>
+            <th scope="row">Блюдо</th>
+              <td></td>
+              <td>Кол-во</td>
+              <td>Цена</td>
+              <td>Сумма</td>
+          </tr>
+          {% for meal, count in meals.items() %}
+           <tr>
+              <th scope="row">{{ meal.title }}</th>
+              <td></td>
+              <td> {{ count }} </td>
+              <td>{{ meal.price }}</td>
+              <td>{{ meal.price * count }} </td>
+              <td><a class="text-danger" href="/deletefromcart/{{ meal.id }}">Удалить</a></td>
+              <td><a class="text-danger" href="/addmeal/{{ meal.id }}">Добавить</a></td>
+            </tr>
+          {% endfor %}
+
+          </tbody>
+        </table>
+        <hr>
+        {% if sum == 0 %}
+        <p class="display-4 my-2 "></p>
+        {% else %}
+        <p class="display-4 my-2 ">{{ sum }} руб.</p>
+        {% endif %}
+      </div>
+    </div>
+</main>
+
+{% endblock %}
+

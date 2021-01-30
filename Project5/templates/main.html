@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+  <main class="container mt-1">
+
+    <section class="my-1 jumbotron jumbotron-fluid">
+      <div class="text-center">
+        {% include 'emodzi2.html' ignore missing %}
+        <h1 class="h2 mt-3 m-2">Всякая еда, чтобы кушать.</h1>
+        <h2 class="h3">Прилетит к вам сама</h2>
+       <p class="pt-2">Доставка дронами</p>
+      </div>
+      <div class="text-center pt-2">
+        {% for categor in category %}
+        <a href="/menu/{{ categor.title }}/" class="btn btn-danger mt-2">
+          <div class="to-bottom"> {{ categor.title }} </div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section>
+      <h3 class="my-4">{{ randomcategory.title }}</h3>
+      <div class="row row-flex mt-4">
+        {% if meals|length==0 %}
+        <h4 class="h5 card-title">Мы готовим вам еще что-то</h4>
+        {% else %}
+      {% for meal in meals %}
+        <div class="col-12 col-md-4">
+          <div class="card mb-3">
+            <img src="/static/pictures/{{ meal.picture }}" width="300" height="200" class="card-img-top" alt="">
+            <div class="card-body">
+              <h4 class="h5 card-title">{{ meal.title }}</h4>
+              <h4 class="h5 card-title"> {{ meal.price }}</h4>
+              <p class="card-text">{{ meal.description|truncate(100) }} </p>
+              <a href="/addtocart/{{ meal.id }}/" class="btn btn-danger">
+                <div class="to-bottom">
+                В корзину
+              </div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </section>
+</main>
+
+{% endblock %}
